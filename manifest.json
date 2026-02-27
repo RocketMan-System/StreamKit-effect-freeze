@@ -1,13 +1,13 @@
 {
     "name": {
-        "en": "StreamKit Effect Template",
-        "ru": "Шаблон эффекта для StreamKit",
-        "ua": "Шаблон ефекту для StreamKit"
+        "en": "Freeze screen",
+        "ru": "Заморозка экрана",
+        "ua": "Замороження екрану"
     },
     "author": "RocketMan",
     "version": "1.0.0",
     "type": "effect",
-    "permissions": ["effectData"],
+    "permissions": ["effectData", "screenshot"],
     "settings": {
         "maxSeconds": 120,
         "volume": 70,

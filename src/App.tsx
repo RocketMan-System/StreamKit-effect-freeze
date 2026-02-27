@@ -5,9 +5,8 @@ import {
 	TRIGGER_ID,
 } from "@rocketman-system/streamkit-widget-helper";
 
-const battaryIcon = require("./media/battary.svg").default;
-
-const audio = new Audio(require("./media/camera.mp3").default);
+const audio = new Audio(require('./media/freeze.mp3').default);
+const img = require('./media/FreezyScreen.svg').default;
 
 export const App = React.memo(() => {
 	const [loaded, setLoaded] = React.useState(false);
@@ -29,6 +28,18 @@ export const App = React.memo(() => {
 		 */
 		amount?: string;
 	}>();
+	const [screenshot, setScreenshot] = React.useState<string>();
+	const [filter, setFilter] = React.useState(false);
+
+    React.useEffect(() => {
+      const tm = setTimeout(() => {
+        setFilter(true);
+      }, 100);
+
+      return () => {
+        clearTimeout(tm);
+      };
+    }, []);
 
 	React.useEffect(() => {
 		ApiRequest("GET", "private/effect/loadData", {
@@ -36,6 +47,12 @@ export const App = React.memo(() => {
 		}).then((data) => {
 			setData(data);
 			setLoaded(true);
+		});
+
+		ApiRequest("GET", "private/screen/screenshot", {
+			triggerId: TRIGGER_ID,
+		}).then((data) => {
+			setScreenshot(data);
 		});
 	}, []);
 
@@ -47,69 +64,24 @@ export const App = React.memo(() => {
 		audio.volume = data.volume / 100;
 
 		audio.onended = () => {
-			audio.currentTime = 8.13;
+			audio.currentTime = 13.31;
 			audio.play();
 		};
 
-		const int = setInterval(() => {
-			if (audio.currentTime >= 16.0) {
-				audio.currentTime = 8.13;
-				audio.play();
-			}
-		}, 100);
-
 		return () => {
-			clearInterval(int);
 			audio.pause();
 		};
 	}, [loaded, data]);
 
-	if (!loaded) return <></>;
+	if (!loaded || !screenshot) return <></>;
 
 	return (
-		<div className="effectMain">
-			<div className="camera">
-				<div className="top">
-					<div>
-						<div className="circle" /> REC
-					</div>
-					<div></div>
-					<div>
-						LOW BATTERY <img src={battaryIcon} className={"batteryIcon"} />
-					</div>
-				</div>
-				<div>
-					<div></div>
-					<div>
-						<div className="overlay">
-							<div className="overlay-element top-left"></div>
-							<div className="overlay-element top-right"></div>
-							<div className="overlay-element bottom-left"></div>
-							<div className="overlay-element bottom-right"></div>
-						</div>
-					</div>
-					<div></div>
-				</div>
-				<div>
-					<div>
-						ISO 100
-						{data?.name && (
-							<>
-								<br />
-								{data.name}
-							</>
-						)}
-					</div>
-					<div></div>
-					<div>
-						{Math.floor((window.innerHeight + window.innerWidth) / 100)} Mbps
-						<br />
-						{window.innerHeight}x{window.innerWidth}
-						<br />
-						FPS 60
-					</div>
-				</div>
-			</div>
+      <>
+        <div className={'FreezeScreenShot'}>
+			<img className="screen" src={screenshot} />
+			<img className="frame" src={img} />
+			<div className={filter ? 'filter' : ''}></div>
 		</div>
-	);
+      </>
+    );
 });
