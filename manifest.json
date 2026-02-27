@@ -4,6 +4,11 @@
         "ru": "Заморозка экрана",
         "ua": "Замороження екрану"
     },
+    "description": {
+        "en": "Very useful if the streamer is too FAST or stays 1 against multiple opponents 😅",
+        "ru": "Очень полезно, если стример слишком БЫСТР либо остается 1 против нескольких противников 😅",
+        "ua": "Дуже корисно, якщо стример занадто ШВИДКИЙ або залишається 1 проти кількох супротивників 😅"
+    },
     "author": "RocketMan",
     "version": "1.0.0",
     "type": "effect",
@@ -11,6 +16,6 @@
     "settings": {
         "maxSeconds": 120,
         "volume": 70,
-        "defaultSeconds": 30
+        "defaultSeconds": 20
     }
 }
